@@ -4,7 +4,8 @@ from flask import Flask, jsonify, render_template, request
 
 from engine import DTC_DATABASE, LOAD_ERROR, lookup_dtc, suggest_codes
 
-app = Flask(__name__)
+# App Platform reserves /static at the edge, so the files live in static/ but are served from /assets.
+app = Flask(__name__, static_url_path="/assets")
 app.json.ensure_ascii = False
 
 
