@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_from_directory
 
 from engine import DTC_DATABASE, LOAD_ERROR, lookup_dtc, suggest_codes
 
@@ -12,6 +12,11 @@ app.json.ensure_ascii = False
 @app.get("/")
 def index():
     return render_template("index.html")
+
+
+@app.get("/favicon.ico")
+def favicon():
+    return send_from_directory(app.static_folder, "favicon.ico", mimetype="image/x-icon")
 
 
 @app.get("/api/meta")
