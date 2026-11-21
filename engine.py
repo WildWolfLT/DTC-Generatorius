@@ -1,7 +1,4 @@
-"""DTC lookup, local technical translation, and indicative fault hints.
-
-The dictionaries and translation rules are the notebook implementation.
-"""
+"""DTC lookup, local technical translation, and indicative fault hints."""
 import re
 from pathlib import Path
 from docx import Document
@@ -1355,7 +1352,7 @@ DISCLAIMER = 'Pastaba: tai galimos priežastys, o ne galutinė diagnozė. Prieš
 
 
 def lookup_dtc(raw_code):
-    # Same fields the notebook printed, returned for the web interface.
+    # Fields returned to the web interface.
     code = str(raw_code).strip().upper().replace(" ", "")
     if not re.fullmatch(r"[PBCU]\d{4}", code):
         return {

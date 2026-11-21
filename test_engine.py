@@ -1,4 +1,4 @@
-"""Checks that the web lookup matches the notebook rules."""
+"""Checks that the web lookup follows the engine rules."""
 import re
 
 import engine
