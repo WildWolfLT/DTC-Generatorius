@@ -1,0 +1,47 @@
+---
+description: REQUIRED every turn. Commit and push all repo edits to origin/main. DigitalOcean App Platform spec. Do not run a local server.
+alwaysApply: true
+---
+
+# Remote hosting only
+
+This repo is deployed by DigitalOcean App Platform from GitHub. A push to `main` redeploys https://dtc-generatorius-clom4.ondigitalocean.app. Do not run a local instance (`python app.py`, Flask, or Gunicorn on this machine).
+
+## Required before you finish
+
+Any edit to this repo must be on `origin/main` before the turn ends. No uncommitted or unpushed files.
+
+1. `git add` the files you changed. Never commit secrets.
+2. `git commit` with a message that says why.
+3. `git push` to `origin` `main`.
+
+Leave `git status` clean. If the push needs approval, request it and push. After the deployment is active, check the live site instead of a local server.
+
+Serve CSS and JS from `/assets`. The App Platform edge returns HTTP 530 for `/static`, so do not point `static_url_path` back at `/static`.
+
+## App spec
+
+```yaml
+name: dtc-generatorius
+region: fra
+features:
+  - buildpack-stack=ubuntu-22
+ingress:
+  rules:
+    - component:
+        name: web
+      match:
+        path:
+          prefix: /
+services:
+  - name: web
+    environment_slug: python
+    github:
+      repo: WildWolfLT/DTC-Generatorius
+      branch: main
+      deploy_on_push: true
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-0.5gb
+    run_command: gunicorn --worker-tmp-dir /dev/shm --bind 0.0.0.0:8080 --workers 2 --preload app:app
+```
