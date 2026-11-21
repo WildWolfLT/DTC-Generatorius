@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101412">
+  <title>DTC kodų paieška</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Literata:opsz,wght@7..72,520;7..72,680&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+  <main class="shell">
+    <header class="mast">
+      <div class="brand">
+        <span class="lamp" aria-hidden="true"></span>
+        <div>
+          <p class="eyebrow">Generatorius</p>
+          <h1>DTC kodų paieška</h1>
+        </div>
+      </div>
+      <p id="db-status" class="db-status" data-state="loading">Įkeliama duomenų bazė…</p>
+    </header>
+
+    <section class="deck">
+      <div class="intro">
+        <p class="lede">Įvedus kodą, programa pateikia originalų aprašymą, lietuvišką techninį vertimą ir orientacines gedimo priežastis.</p>
+        <ul class="ticks">
+          <li>Originalus aprašymas iš šaltinio</li>
+          <li>Lokalus techninis vertimas</li>
+          <li>Gamintojo ir Ford kodo patikra</li>
+          <li>Orientacinės gedimo priežastys</li>
+        </ul>
+        <p class="fine">Vertimas atliekamas vietoje, išplėstu techninių terminų ir diagnostinių frazių žodynu. Pilnos konstrukcijos apdorojamos prieš atskirus žodžius, todėl trumpas terminas nepakeičia ilgesnio žodžio dalies. Mokamo vertimo API nereikia. Vertimas lieka automatinis ir gali būti netikslus gamintojo specifiniuose aprašymuose, todėl originalus tekstas visada rodomas šalia.</p>
+      </div>
+
+      <div class="search-card">
+        <form id="search-form" autocomplete="off">
+          <label for="code">DTC kodas</label>
+          <div class="search-row">
+            <div class="field">
+              <input id="code" name="code" type="text" spellcheck="false" autocapitalize="characters" autocomplete="off" placeholder="Pvz.: P0101 arba P0299" maxlength="16" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false">
+              <ul id="suggest" class="suggest" role="listbox" hidden></ul>
+            </div>
+            <button id="submit" type="submit">Ieškoti kodo</button>
+          </div>
+        </form>
+        <div class="examples">
+          <span>Pavyzdžiai</span>
+          <button type="button" data-example="P0101">P0101</button>
+          <button type="button" data-example="B1202">B1202</button>
+          <button type="button" data-example="C1095">C1095</button>
+          <button type="button" data-example="U0100">U0100</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="outcome" class="outcome" hidden>
+      <article id="alert" class="alert" hidden>
+        <h2></h2>
+        <p></p>
+      </article>
+
+      <article id="sheet" class="sheet" hidden>
+        <header class="sheet-head">
+          <div>
+            <p class="sheet-kicker">DTC kodas</p>
+            <p class="code-xl" data-field="code"></p>
+          </div>
+          <p class="category" data-field="category"></p>
+        </header>
+
+        <div class="meanings">
+          <section>
+            <h2>REIKŠMĖ (originalas)</h2>
+            <p data-field="description"></p>
+          </section>
+          <section class="meaning-lt">
+            <h2>REIKŠMĖ (automatinis lietuviškas vertimas)</h2>
+            <p class="translation" data-field="translation"></p>
+          </section>
+        </div>
+
+        <section class="status-block">
+          <h2>GAMINTOJO / FORD KODO PATIKRA</h2>
+          <p class="status-name" data-field="status"></p>
+          <p data-field="status-info"></p>
+        </section>
+
+        <section class="ford" data-field="ford" hidden>
+          <h2>Ford sąrašo pastaba</h2>
+          <p></p>
+        </section>
+
+        <section class="faults">
+          <h2>GALIMI GEDIMAI</h2>
+          <ol data-field="faults"></ol>
+        </section>
+
+        <p class="disclaimer" data-field="disclaimer"></p>
+      </article>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>
